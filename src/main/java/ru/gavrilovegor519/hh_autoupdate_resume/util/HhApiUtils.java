@@ -36,7 +36,7 @@ public class HhApiUtils {
     public TokenDto getInitialToken() {
         return restClient.post()
                 .uri("/token?grant_type=authorization_code&client_id={clientId}&client_secret={clientSecret}&code={authToken}&redirect_uri={redirectURI}",
-                        clientId, clientSecret, authToken)
+                        clientId, clientSecret, authToken, redirectURI)
                 .accept(MediaType.APPLICATION_JSON)
                 .exchange((request, response) -> {
                     if (response.getStatusCode().isSameCodeAs(HttpStatusCode.valueOf(200))) {
