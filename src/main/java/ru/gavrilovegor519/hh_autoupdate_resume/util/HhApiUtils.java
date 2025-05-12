@@ -2,6 +2,7 @@ package ru.gavrilovegor519.hh_autoupdate_resume.util;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import jdk.swing.interop.SwingInterOpUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatusCode;
@@ -25,6 +26,9 @@ public class HhApiUtils {
 
     @Value("${ru.gavrilovegor519.hh-autoupdate-resume.redirectURI}")
     private String redirectURI;
+
+    @Value("${ru.gavrilovegor519.hh-autoupdate-resume.accessToken}")
+    private String accessToken;
 
     private final ObjectMapper objectMapper = new ObjectMapper();
 
@@ -62,10 +66,10 @@ public class HhApiUtils {
                 });
     }
 
-    public void updateResume(String resumeId, String accessToken) {
+    public void updateResume(String resumeId) {
         restClient.post()
                 .uri("/resumes/{resumeId}/publish", resumeId)
-                .header("Authorization", "Bearer " + accessToken)
+                .header("Authorization", "Bearer " + this.accessToken)
                 .accept(MediaType.APPLICATION_JSON)
                 .exchange((request, response) -> {
                     if (response.getStatusCode().isSameCodeAs(HttpStatusCode.valueOf(204))) {

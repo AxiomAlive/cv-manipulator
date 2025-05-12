@@ -63,13 +63,13 @@ public class AutoUpdateResume {
 
     private void updateResumeInternal() {
         try {
-            hhApiUtils.updateResume(sciResumeId, accessToken);
+            hhApiUtils.updateResume(sciResumeId);
         } catch(Exception e) {
             System.out.println(e.getMessage());
             System.out.println("CV: data scientist.");
         }
         try {
-            hhApiUtils.updateResume(devResumeId, accessToken);
+            hhApiUtils.updateResume(devResumeId);
 //            sendTelegramNotification.send("Резюме обновлено");
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -80,14 +80,14 @@ public class AutoUpdateResume {
 //            throw e;
         }
         try {
-            hhApiUtils.updateResume(devOpsResumeId, accessToken);
+            hhApiUtils.updateResume(devOpsResumeId);
         } catch(Exception e) {
             System.out.println(e.getMessage());
             System.out.println("CV: devops.");
         }
 
         try {
-            hhApiUtils.updateResume(tutorResumeId, accessToken);
+            hhApiUtils.updateResume(tutorResumeId);
         } catch(Exception e) {
             System.out.println(e.getMessage());
             System.out.println("CV: tutor.");
