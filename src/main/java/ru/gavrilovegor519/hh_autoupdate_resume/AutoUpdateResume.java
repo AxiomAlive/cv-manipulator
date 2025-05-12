@@ -66,12 +66,14 @@ public class AutoUpdateResume {
             hhApiUtils.updateResume(sciResumeId, accessToken);
         } catch(Exception e) {
             System.out.println(e.getMessage());
+            System.out.println("CV: data scientist.");
         }
         try {
             hhApiUtils.updateResume(devResumeId, accessToken);
 //            sendTelegramNotification.send("Резюме обновлено");
         } catch (Exception e) {
             System.out.println(e.getMessage());
+            System.out.println("CV: developer.");
 //            if (!e.getStatusCode().isSameCodeAs(HttpStatusCode.valueOf(403))) {
 //                sendTelegramNotification.send("Ошибка обновления резюме: " + e.getMessage());
 //            }
@@ -81,12 +83,14 @@ public class AutoUpdateResume {
             hhApiUtils.updateResume(devOpsResumeId, accessToken);
         } catch(Exception e) {
             System.out.println(e.getMessage());
+            System.out.println("CV: devops.");
         }
 
         try {
             hhApiUtils.updateResume(tutorResumeId, accessToken);
         } catch(Exception e) {
             System.out.println(e.getMessage());
+            System.out.println("CV: tutor.");
         }
     }
 
