@@ -23,6 +23,9 @@ public class HhApiUtils {
     @Value("${ru.gavrilovegor519.hh-autoupdate-resume.clientSecret}")
     private String clientSecret;
 
+    @Value("${ru.gavrilovegor519.hh-autoupdate-resume.redirectURI}")
+    private String redirectURI;
+
     private final ObjectMapper objectMapper = new ObjectMapper();
 
     private final RestClient restClient = RestClient.builder()
@@ -32,7 +35,7 @@ public class HhApiUtils {
 
     public TokenDto getInitialToken() {
         return restClient.post()
-                .uri("/token?grant_type=authorization_code&client_id={clientId}&client_secret={clientSecret}&code={authToken}",
+                .uri("/token?grant_type=authorization_code&client_id={clientId}&client_secret={clientSecret}&code={authToken}&redirect_uri={redirectURI}",
                         clientId, clientSecret, authToken)
                 .accept(MediaType.APPLICATION_JSON)
                 .exchange((request, response) -> {

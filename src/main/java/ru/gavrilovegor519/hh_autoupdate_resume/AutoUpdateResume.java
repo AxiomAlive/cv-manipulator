@@ -9,7 +9,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.client.HttpClientErrorException;
 import ru.gavrilovegor519.hh_autoupdate_resume.dto.TokenDto;
 import ru.gavrilovegor519.hh_autoupdate_resume.util.HhApiUtils;
-import ru.gavrilovegor519.hh_autoupdate_resume.util.SendTelegramNotification;
 
 import java.util.prefs.Preferences;
 
@@ -19,19 +18,30 @@ import java.util.prefs.Preferences;
 public class AutoUpdateResume {
 
     private final HhApiUtils hhApiUtils;
-    private final String resumeId;
-    private final SendTelegramNotification sendTelegramNotification;
+    private final String devResumeId;
+    private final String sciResumeId;
+    private final String devOpsResumeId;
+    private final String tutorResumeId;
+//    private final SendTelegramNotification sendTelegramNotification;
 
     private final Preferences preferences = Preferences.userRoot().node("hh-autoupdate-resume");
 
     private String accessToken = preferences.get("access_token", null);
     private String refreshToken = preferences.get("refresh_token", null);
 
-    public AutoUpdateResume(HhApiUtils hhApiUtils, SendTelegramNotification sendTelegramNotification,
-                            @Value("${ru.gavrilovegor519.hh-autoupdate-resume.resumeId}") String resumeId) {
+    public AutoUpdateResume(
+        HhApiUtils hhApiUtils,
+        @Value("${ru.gavrilovegor519.hh-autoupdate-resume.devResumeId}") String devResumeId,
+        @Value("${ru.gavrilovegor519.hh-autoupdate-resume.sciResumeId}") String sciResumeId,
+        @Value("${ru.gavrilovegor519.hh-autoupdate-resume.devOpsResumeId}") String devOpsResumeId,
+        @Value("${ru.gavrilovegor519.hh-autoupdate-resume.tutorResumeId}") String tutorResumeId
+    ) {
         this.hhApiUtils = hhApiUtils;
-        this.sendTelegramNotification = sendTelegramNotification;
-        this.resumeId = resumeId;
+//        this.sendTelegramNotification = sendTelegramNotification;
+        this.devResumeId = devResumeId;
+        this.sciResumeId = sciResumeId;
+        this.devOpsResumeId = devOpsResumeId;
+        this.tutorResumeId = tutorResumeId;
     }
 
     @Scheduled(fixedRate = 14410000)
@@ -53,16 +63,30 @@ public class AutoUpdateResume {
 
     private void updateResumeInternal() {
         try {
-            hhApiUtils.updateResume(resumeId, accessToken);
-            sendTelegramNotification.send("Резюме обновлено");
-        } catch (HttpClientErrorException e) {
-            if (!e.getStatusCode().isSameCodeAs(HttpStatusCode.valueOf(403))) {
-                sendTelegramNotification.send("Ошибка обновления резюме: " + e.getMessage());
-            }
-            throw e;
+            hhApiUtils.updateResume(sciResumeId, accessToken);
+        } catch(Exception e) {
+            System.out.println(e.getMessage());
+        }
+        try {
+            hhApiUtils.updateResume(devResumeId, accessToken);
+//            sendTelegramNotification.send("Резюме обновлено");
         } catch (Exception e) {
-            sendTelegramNotification.send("Ошибка обновления резюме: " + e.getMessage());
-            throw e;
+            System.out.println(e.getMessage());
+//            if (!e.getStatusCode().isSameCodeAs(HttpStatusCode.valueOf(403))) {
+//                sendTelegramNotification.send("Ошибка обновления резюме: " + e.getMessage());
+//            }
+//            throw e;
+        }
+        try {
+            hhApiUtils.updateResume(devOpsResumeId, accessToken);
+        } catch(Exception e) {
+            System.out.println(e.getMessage());
+        }
+
+        try {
+            hhApiUtils.updateResume(tutorResumeId, accessToken);
+        } catch(Exception e) {
+            System.out.println(e.getMessage());
         }
     }
 
@@ -73,10 +97,9 @@ public class AutoUpdateResume {
             } else {
                 updateTokensInPreferences(hhApiUtils.getNewToken(refreshToken));
             }
-            sendTelegramNotification.send("Токены обновлены");
+//            sendTelegramNotification.send("Токены обновлены");
         } catch (Exception e) {
-            sendTelegramNotification.send("Ошибка обновления токенов: " + e.getMessage());
-            throw e;
+//            sendTelegramNotification.send("Ошибка обновления токенов: " + e.getMessage());
         }
     }
 
