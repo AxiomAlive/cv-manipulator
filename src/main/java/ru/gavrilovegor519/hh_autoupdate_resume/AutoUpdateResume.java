@@ -103,6 +103,7 @@ public class AutoUpdateResume {
             }
 //            sendTelegramNotification.send("Токены обновлены");
         } catch (Exception e) {
+            System.out.println("Cannot update tokens.");
 //            sendTelegramNotification.send("Ошибка обновления токенов: " + e.getMessage());
         }
     }
