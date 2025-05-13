@@ -64,16 +64,18 @@ public class AutoUpdateResume {
     private void updateResumeInternal() {
         try {
             hhApiUtils.updateResume(sciResumeId);
+            System.out.println("Data scientist CV has been updated.");
         } catch(Exception e) {
             System.out.println(e.getMessage());
-            System.out.println("CV: data scientist.");
+            System.out.println("Data scientist CV hasn't been  updated.");
         }
         try {
             hhApiUtils.updateResume(devResumeId);
+            System.out.println("Developer CV has been updated.");
 //            sendTelegramNotification.send("Резюме обновлено");
         } catch (Exception e) {
             System.out.println(e.getMessage());
-            System.out.println("CV: developer.");
+            System.out.println("Developer CV hasn't been updated.");
 //            if (!e.getStatusCode().isSameCodeAs(HttpStatusCode.valueOf(403))) {
 //                sendTelegramNotification.send("Ошибка обновления резюме: " + e.getMessage());
 //            }
@@ -81,16 +83,18 @@ public class AutoUpdateResume {
         }
         try {
             hhApiUtils.updateResume(devOpsResumeId);
+            System.out.println("DevOps CV has been updated.");
         } catch(Exception e) {
             System.out.println(e.getMessage());
-            System.out.println("CV: devops.");
+            System.out.println("DevOps CV hasn't been updated.");
         }
 
         try {
             hhApiUtils.updateResume(tutorResumeId);
+            System.out.println("Tutor CV has been updated.");
         } catch(Exception e) {
             System.out.println(e.getMessage());
-            System.out.println("CV: tutor.");
+            System.out.println("Tutor CV hasn't been updated.");
         }
     }
 
@@ -103,7 +107,7 @@ public class AutoUpdateResume {
             }
 //            sendTelegramNotification.send("Токены обновлены");
         } catch (Exception e) {
-            System.out.println("Cannot update tokens.");
+//            System.out.println("Cannot update tokens.");
 //            sendTelegramNotification.send("Ошибка обновления токенов: " + e.getMessage());
         }
     }
