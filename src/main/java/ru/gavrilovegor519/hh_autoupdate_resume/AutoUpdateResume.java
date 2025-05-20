@@ -50,10 +50,15 @@ public class AutoUpdateResume {
             try {
                 updateResumeInternal();
             } catch (HttpClientErrorException e) {
-                if (e.getStatusCode().isSameCodeAs(HttpStatusCode.valueOf(403))) {
-                    updateTokens(false);
-                    updateResumeInternal();
+                try {
+                    if (e.getStatusCode().isSameCodeAs(HttpStatusCode.valueOf(403))) {
+                        updateTokens(false);
+                        updateResumeInternal();
+                    }
+                } catch(HttpClientErrorException ex) {
+                    System.out.println(ex.getMessage());
                 }
+
             }
         } else {
             updateTokens(true);
