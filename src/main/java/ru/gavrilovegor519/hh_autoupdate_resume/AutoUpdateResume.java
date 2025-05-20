@@ -62,40 +62,17 @@ public class AutoUpdateResume {
     }
 
     private void updateResumeInternal() {
-        try {
-            hhApiUtils.updateResume(sciResumeId);
-            System.out.println("Data scientist CV has been updated.");
-        } catch(Exception e) {
-            System.out.println(e.getMessage());
-            System.out.println("Data scientist CV hasn't been  updated.");
-        }
-        try {
-            hhApiUtils.updateResume(devResumeId);
-            System.out.println("Developer CV has been updated.");
-//            sendTelegramNotification.send("Резюме обновлено");
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-            System.out.println("Developer CV hasn't been updated.");
-//            if (!e.getStatusCode().isSameCodeAs(HttpStatusCode.valueOf(403))) {
-//                sendTelegramNotification.send("Ошибка обновления резюме: " + e.getMessage());
-//            }
-//            throw e;
-        }
-        try {
-            hhApiUtils.updateResume(devOpsResumeId);
-            System.out.println("DevOps CV has been updated.");
-        } catch(Exception e) {
-            System.out.println(e.getMessage());
-            System.out.println("DevOps CV hasn't been updated.");
-        }
+        hhApiUtils.updateResume(sciResumeId, accessToken);
+        System.out.println("Data scientist CV has been updated.");
 
-        try {
-            hhApiUtils.updateResume(tutorResumeId);
-            System.out.println("Tutor CV has been updated.");
-        } catch(Exception e) {
-            System.out.println(e.getMessage());
-            System.out.println("Tutor CV hasn't been updated.");
-        }
+        hhApiUtils.updateResume(devResumeId, accessToken);
+        System.out.println("Developer CV has been updated.");
+
+        hhApiUtils.updateResume(devOpsResumeId, accessToken);
+        System.out.println("DevOps CV has been updated.");
+
+        hhApiUtils.updateResume(tutorResumeId, accessToken);
+        System.out.println("Tutor CV has been updated.");
     }
 
     private void updateTokens(boolean isInitial) {

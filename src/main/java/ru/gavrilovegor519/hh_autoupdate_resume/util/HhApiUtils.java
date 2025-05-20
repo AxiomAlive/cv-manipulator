@@ -1,5 +1,6 @@
 package ru.gavrilovegor519.hh_autoupdate_resume.util;
 
+import ch.qos.logback.core.subst.Token;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jdk.swing.interop.SwingInterOpUtils;
@@ -26,9 +27,6 @@ public class HhApiUtils {
 
     @Value("${ru.gavrilovegor519.hh-autoupdate-resume.redirectURI}")
     private String redirectURI;
-
-    @Value("${ru.gavrilovegor519.hh-autoupdate-resume.accessToken}")
-    private String accessToken;
 
     private final ObjectMapper objectMapper = new ObjectMapper();
 
@@ -66,10 +64,10 @@ public class HhApiUtils {
                 });
     }
 
-    public void updateResume(String resumeId) {
+    public void updateResume(String resumeId, String accessToken) {
         restClient.post()
                 .uri("/resumes/{resumeId}/publish", resumeId)
-                .header("Authorization", "Bearer " + this.accessToken)
+                .header("Authorization", "Bearer " + accessToken)
                 .accept(MediaType.APPLICATION_JSON)
                 .exchange((request, response) -> {
                     if (response.getStatusCode().isSameCodeAs(HttpStatusCode.valueOf(204))) {
